@@ -1,3 +1,14 @@
+/*
+* LocationTest
+*
+* version 1.0
+*
+* Date: 28.10.2018
+*
+* Copyright notice: AGPLv3
+* 
+*/
+
 package org.wahlzeit.model;
 
 import static org.junit.Assert.*;
