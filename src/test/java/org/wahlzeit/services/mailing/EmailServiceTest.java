@@ -57,4 +57,25 @@ public class EmailServiceTest {
 			Assert.fail("Silent mode does not allow exceptions");
 		}
 	}
+	
+	@Test
+	public void testValidSendEmailWithBccRecipient(){
+		/*test method that throws exceptions */
+		try{
+			EmailAddress v2 = EmailAddress.getFromString("turtletime@wahlzeit.de");
+			EmailAddress v3 = EmailAddress.getFromString("walzeit@turtletime.com");
+			emailService.sendEmail(v2, validAddress, v3, "my awesome subject", "my awesome body");
+		} catch(Exception e){
+			Assert.fail("Failed to send email");
+		}
+		/*test method that does ignore exceptions*/
+		EmailAddress v4 = EmailAddress.getFromString("durtletime@mahlzeit.de");
+		EmailAddress v5 = EmailAddress.getFromString("malzeit@durtletime.com");
+		try{
+			emailService.sendEmailIgnoreException(v4, validAddress, v5, "my awesome subject", "my awesome body");
+		} catch (Exception ex) {
+			Assert.fail("Silent mode does not allow exceptions");
+		}
+		
+	}
 }
