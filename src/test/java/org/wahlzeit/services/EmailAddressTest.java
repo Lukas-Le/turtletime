@@ -76,8 +76,9 @@ public class EmailAddressTest extends TestCase {
 		EmailAddress emailAddress4 = new EmailAddress("hi@web");
 		
 		assertFalse(emailAddress.isEqual(emailAddress2));
-		assert(emailAddress.isEqual(emailAddress3));
+		assertFalse(emailAddress.isEqual(emailAddress3));
 		assertFalse(emailAddress.isEqual(emailAddress4));
+		assertTrue(emailAddress.isEqual(emailAddress));
 	}
 
 }
