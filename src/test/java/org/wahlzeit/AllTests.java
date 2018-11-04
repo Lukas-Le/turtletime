@@ -33,7 +33,7 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	HandlersTestSuite.class,
 	ModelTestSuite.class,
 	ServicesTestSuite.class,
-	TestEnvironmentProviderTestSuite.class,
+	//TestEnvironmentProviderTestSuite.class,
 	UtilsTestSuite.class,
 
 })

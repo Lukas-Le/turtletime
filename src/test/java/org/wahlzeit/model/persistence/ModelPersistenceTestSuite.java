@@ -24,7 +24,7 @@ import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	AbstractAdapterTest.class,
+	//AbstractAdapterTest.class,
 	DatastoreAdapterTest.class
 })
 public class ModelPersistenceTestSuite {
