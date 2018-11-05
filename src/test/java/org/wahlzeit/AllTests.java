@@ -24,7 +24,6 @@ import org.junit.runners.Suite;
 import org.wahlzeit.handlers.HandlersTestSuite;
 import org.wahlzeit.model.ModelTestSuite;
 import org.wahlzeit.services.ServicesTestSuite;
-import org.wahlzeit.testEnvironmentProvider.TestEnvironmentProviderTestSuite;
 import org.wahlzeit.utils.UtilsTestSuite;
 
 
@@ -33,7 +32,6 @@ import org.wahlzeit.utils.UtilsTestSuite;
 	HandlersTestSuite.class,
 	ModelTestSuite.class,
 	ServicesTestSuite.class,
-	//TestEnvironmentProviderTestSuite.class,
 	UtilsTestSuite.class,
 
 })
