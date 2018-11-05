@@ -59,8 +59,11 @@ dependencies {
 }
 
 test {
+	//task testSuite(type: Test) {
+	//	include 'org.wahlzeit.AllTests'  
+	//}
     filter {
-        includeTestsMatching "org.wahlzeit.*"
+        includeTestsMatching "org.wahlzeit.AllTests"
     }
     testLogging {
             events "passed", "skipped", "failed"
