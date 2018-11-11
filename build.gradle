@@ -65,6 +65,7 @@ test {
     filter {
         includeTestsMatching "org.wahlzeit.AllTests"
     }
+	//include "org/wahlzeit/AllTests.class"
     testLogging {
             events "passed", "skipped", "failed"
 

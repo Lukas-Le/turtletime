@@ -31,6 +31,8 @@ import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
 import org.wahlzeit.model.persistence.DatastoreAdapter;
 import org.wahlzeit.model.persistence.ImageStorage;
+import org.wahlzeit.model.turtle.TurtlePhotoFactory;
+import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.services.LogBuilder;
 
 import java.io.File;
@@ -69,6 +71,12 @@ public abstract class ModelMain extends AbstractMain {
 
 		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
 		PhotoManager.getInstance().init();
+		
+		log.config(LogBuilder.createSystemMessage().addAction("init TurtlePhotoFactory").toString());
+		TurtlePhotoFactory.initialize();
+
+		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
+		TurtlePhotoManager.getInstance().init();
 	}
 
 

@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2006-2009 by Lukas Lehnert 
+ * Copyright (c) 2006-2009 by Dirk Riehle, http://dirkriehle.com
+ *
  * This file is part of the Wahlzeit photo rating application.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,29 +18,28 @@
  * <http://www.gnu.org/licenses/>.
  */
 
-package org.wahlzeit.model;
 
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
-import org.wahlzeit.model.turtle.TurtlePhotoTestSuite;
 
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class, 
-	GenderTest.class, 
-	GuestTest.class,
-	LocationTest.class, 
-	PhotoFilterTest.class, 
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	ModelPersistenceTestSuite.class,
-	TurtlePhotoTestSuite.class
-	   
-})
-public class ModelTestSuite {
 
+package org.wahlzeit.model.turtle;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import junit.framework.TestCase;
+
+
+public class TurtlePhotoManagerTest extends TestCase{
+	
+	public TurtlePhotoManagerTest(String name) {
+		super(name);
+	}
+	
+	
+	@Test
+	public void testSimpleManagerCreation(){
+		TurtlePhotoManager m = new TurtlePhotoManager();
+		Assert.assertNotNull(m);
+		Assert.assertTrue(m.getTurtleInstance() instanceof TurtlePhotoManager);
+	}
 }

@@ -16,30 +16,20 @@
  * License along with this program. If not, see
  * <http://www.gnu.org/licenses/>.
  */
+package org.wahlzeit.model.turtle;
 
-package org.wahlzeit.model;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
-import org.wahlzeit.model.turtle.TurtlePhotoTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-	AccessRightsTest.class,
-	CoordinateTest.class,
-	FlagReasonTest.class, 
-	GenderTest.class, 
-	GuestTest.class,
-	LocationTest.class, 
-	PhotoFilterTest.class, 
-	TagsTest.class,
-	UserStatusTest.class,
-	ValueTest.class,
-	ModelPersistenceTestSuite.class,
-	TurtlePhotoTestSuite.class
-	   
+	//AbstractAdapterTest.class,
+	TurtlePhotoFactoryTest.class,
+	TurtlePhotoManagerTest.class,
+	TurtlePhotoTest.class
+	
 })
-public class ModelTestSuite {
+public class TurtlePhotoTestSuite {
 
 }
