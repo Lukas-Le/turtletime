@@ -24,6 +24,8 @@ import com.google.appengine.api.images.Image;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.Transform;
+
+import org.wahlzeit.model.turtle.TurtlePhotoFactory;
 import org.wahlzeit.services.LogBuilder;
 
 import java.util.logging.Logger;
@@ -40,7 +42,7 @@ public class PhotoUtil {
 	 * @methodtype creation
 	 */
 	public static Photo createPhoto(String filename, PhotoId id, Image uploadedImage) throws Exception {
-		Photo result = PhotoFactory.getInstance().createPhoto(id);
+		Photo result = TurtlePhotoFactory.getInstance().createPhoto(id);
 		result.setEnding(filename.substring(filename.lastIndexOf(".") + 1));
 
 		createImageFiles(uploadedImage, result);

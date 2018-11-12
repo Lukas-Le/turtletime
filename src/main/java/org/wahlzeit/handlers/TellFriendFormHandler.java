@@ -25,6 +25,7 @@ import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.UserSession;
+import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.mailing.EmailService;
@@ -71,12 +72,12 @@ public class TellFriendFormHandler extends AbstractWebFormHandler {
 		String emailText = config.getTellFriendEmailWebsite() + "\n\n" + us.getSiteUrl() + "\n\n";
 
 		String id = us.getAsString(args, Photo.ID);
-		if (!StringUtil.isNullOrEmptyString(id) && PhotoManager.getInstance().hasPhoto(id)) {
+		if (!StringUtil.isNullOrEmptyString(id) && TurtlePhotoManager.getInstance().hasPhoto(id)) {
 			emailText += (config.getTellFriendEmailPhoto() + "\n\n" + us.getSiteUrl() + id + ".html" + "\n\n");
 		}
 
 		part.addString(Photo.ID, id);
-		Photo photo = PhotoManager.getInstance().getPhoto(id);
+		Photo photo = TurtlePhotoManager.getInstance().getPhoto(id);
 		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
 
 		part.maskAndAddStringFromArgsWithDefault(args, EMAIL_BODY, emailText);

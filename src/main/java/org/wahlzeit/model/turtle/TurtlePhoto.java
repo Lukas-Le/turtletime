@@ -25,6 +25,10 @@ import org.wahlzeit.model.Location;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
 
+import com.googlecode.objectify.annotation.Subclass;
+
+
+@Subclass
 public class TurtlePhoto extends Photo{
 
 	
