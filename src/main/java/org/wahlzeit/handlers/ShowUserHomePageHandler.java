@@ -25,7 +25,6 @@ import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserSession;
-import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.utils.HtmlUtil;
 import org.wahlzeit.webparts.WebPart;
 import org.wahlzeit.webparts.Writable;
@@ -57,7 +56,7 @@ public class ShowUserHomePageHandler extends AbstractWebPageHandler {
 			WritableList list = new WritableList();
 			for (Photo photo : photos) {
 				// load it from the PhotoManager to make sure the same copy is used
-				photo = TurtlePhotoManager.getInstance().getPhotoFromId(photo.getId());
+				photo = PhotoManager.getInstance().getPhotoFromId(photo.getId());
 				if (photo != null && !photo.getStatus().isDeleted()) {
 					part = makeUserPhotoForm(us, photo);
 					list.append(part);

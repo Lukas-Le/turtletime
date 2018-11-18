@@ -25,8 +25,6 @@ import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Ignore;
 import com.googlecode.objectify.annotation.Parent;
-
-import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.Language;
 import org.wahlzeit.services.ObjectManager;
@@ -303,7 +301,7 @@ public abstract class Client implements Serializable, Persistent {
 		Photo result = null;
 		while (indexOfLastPraisedPhoto >= 0 && result == null) {
 			PhotoId lastPraisedPhotoId = praisedPhotoIds.get(indexOfLastPraisedPhoto);
-			result = TurtlePhotoManager.getInstance().getPhoto(lastPraisedPhotoId);
+			result = PhotoManager.getInstance().getPhoto(lastPraisedPhotoId);
 			if (result != null && !result.isVisible()) {
 				result = null;
 				indexOfLastPraisedPhoto--;

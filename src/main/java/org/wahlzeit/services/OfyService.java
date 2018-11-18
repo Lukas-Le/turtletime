@@ -13,7 +13,6 @@ import org.wahlzeit.model.PhotoCase;
 import org.wahlzeit.model.Tag;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.persistence.DatastoreAdapter.ImageWrapper;
-import org.wahlzeit.model.turtle.TurtlePhoto;
 
 /**
  * A badly named class, to be renamed to ObjectifyService first, something better later.
@@ -26,7 +25,6 @@ public class OfyService {
 	 * Register all entities at startup
 	 */
 	static {
-		factory().register(TurtlePhoto.class);
 		factory().register(Photo.class);
 		factory().register(Globals.class);
 		factory().register(Tag.class);

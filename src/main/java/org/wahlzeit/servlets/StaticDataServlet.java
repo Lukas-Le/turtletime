@@ -6,7 +6,6 @@ import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.PhotoSize;
 import org.wahlzeit.model.persistence.ImageStorage;
-import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.services.LogBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +68,7 @@ public class StaticDataServlet extends AbstractServlet {
 	 */
 	private Image getImage(String photoId, int size) {
 		Image image = null;
-		Photo photo = TurtlePhotoManager.getInstance().getPhoto(photoId);
+		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
 		if (photo != null) {
 			PhotoSize photoSize = PhotoSize.getFromInt(size);
 			image = photo.getImage(photoSize);

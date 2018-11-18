@@ -27,7 +27,6 @@ import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.model.PhotoStatus;
 import org.wahlzeit.model.Tags;
 import org.wahlzeit.model.UserSession;
-import org.wahlzeit.model.turtle.TurtlePhotoManager;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.webparts.WebPart;
 
@@ -54,7 +53,7 @@ public class AdminUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected void doMakeWebPart(UserSession us, WebPart part) {
 		String photoId = (String) us.getSavedArg("photoId");
-		Photo photo = TurtlePhotoManager.getInstance().getPhoto(photoId);
+		Photo photo = PhotoManager.getInstance().getPhoto(photoId);
 		part.addString(Photo.THUMB, getPhotoThumb(us, photo));
 
 		part.addString("photoId", photoId);
@@ -68,7 +67,7 @@ public class AdminUserPhotoFormHandler extends AbstractWebFormHandler {
 	 */
 	protected String doHandlePost(UserSession us, Map args) {
 		String id = us.getAndSaveAsString(args, "photoId");
-		Photo photo = TurtlePhotoManager.getInstance().getPhoto(id);
+		Photo photo = PhotoManager.getInstance().getPhoto(id);
 
 		String tags = us.getAndSaveAsString(args, Photo.TAGS);
 		photo.setTags(new Tags(tags));

@@ -6,7 +6,6 @@ import org.wahlzeit.model.ModelConfig;
 import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.model.PhotoManager;
-import org.wahlzeit.model.turtle.*;
 import org.wahlzeit.model.User;
 import org.wahlzeit.model.UserManager;
 import org.wahlzeit.services.EmailAddress;
@@ -39,7 +38,7 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 	 * Notifies all users that want to get informed if their photos have been praised.
 	 */
 	protected void doRun() {
-		Map<PhotoId, Photo> photoCache = TurtlePhotoManager.getInstance().getPhotoCache();
+		Map<PhotoId, Photo> photoCache = PhotoManager.getInstance().getPhotoCache();
 		Collection<Photo> photos = photoCache.values();
 
 		ArrayList<Photo> arrayListOfPhotos;
@@ -59,7 +58,7 @@ public class NotifyUsersAboutPraiseAgent extends Agent {
 					arrayListOfPhotos.add(photo);
 					ownerIdPhotosMap.put(ownerId, arrayListOfPhotos);
 					photo.setNoNewPraise();
-					TurtlePhotoManager.getInstance().savePhoto(photo);
+					PhotoManager.getInstance().savePhoto(photo);
 				}
 			}
 		}

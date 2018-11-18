@@ -66,8 +66,11 @@ public abstract class ModelMain extends AbstractMain {
 		log.config(LogBuilder.createSystemMessage().addAction("load user").toString());
 		UserManager.getInstance().init();
 
-		
-		
+		log.config(LogBuilder.createSystemMessage().addAction("init PhotoFactory").toString());
+		PhotoFactory.initialize();
+
+		log.config(LogBuilder.createSystemMessage().addAction("load Photos").toString());
+		PhotoManager.getInstance().init();
 		
 		log.config(LogBuilder.createSystemMessage().addAction("init TurtlePhotoFactory").toString());
 		TurtlePhotoFactory.initialize();
@@ -91,7 +94,7 @@ public abstract class ModelMain extends AbstractMain {
 	 */
 	public void saveAll() throws IOException{
 		PhotoCaseManager.getInstance().savePhotoCases();
-		TurtlePhotoManager.getInstance().savePhotos();
+		PhotoManager.getInstance().savePhotos();
 		UserManager.getInstance().saveClients();
 		GlobalsManager.getInstance().saveGlobals();
 	}
@@ -103,7 +106,7 @@ public abstract class ModelMain extends AbstractMain {
 		UserManager userManager = UserManager.getInstance();
 		User user = new User(userId, nickName, emailAddress);
 
-		PhotoManager photoManager = TurtlePhotoManager.getInstance();
+		PhotoManager photoManager = PhotoManager.getInstance();
 		File photoDirFile = new File(photoDir);
 		FileFilter photoFileFilter = file -> file.getName().endsWith(".jpg");
 		File[] photoFiles = photoDirFile.listFiles(photoFileFilter);
