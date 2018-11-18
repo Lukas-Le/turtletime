@@ -13,6 +13,7 @@ package org.wahlzeit.model;
 
 import static org.junit.Assert.*;
 import org.junit.*;
+import org.wahlzeit.model.Coordinate;
 
 public class CartesianCoordinateTest {
 	
