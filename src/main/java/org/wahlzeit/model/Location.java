@@ -8,6 +8,7 @@
 * Copyright notice: AGPLv3
 */
 package org.wahlzeit.model;
+import org.wahlzeit.model.*;
 
 public class Location {
 	public Coordinate coordinate;

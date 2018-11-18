@@ -15,6 +15,8 @@ import static org.junit.Assert.*;
 import org.junit.*;
 
 public class CartesianCoordinateTest {
+	
+	private static final double EPSIOLON = 1e-14;
 
 	private Coordinate c1;
 	private Coordinate c2;
@@ -122,9 +124,9 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testValidGetter(){
-		assert(c1.asCartesianCoordinate().getX() == 1.0);
-		assert(c1.asCartesianCoordinate().getY() == 2.0);
-		assert(c1.asCartesianCoordinate().getZ() == 3.0);
+		assert(Math.abs(c1.asCartesianCoordinate().getX() - 1.0) < EPSIOLON);
+		assert(Math.abs(c1.asCartesianCoordinate().getY() - 2.0) < EPSIOLON);
+		assert(Math.abs(c1.asCartesianCoordinate().getZ() - 3.0) < EPSIOLON);
 	}
 	
 	@Test
@@ -148,8 +150,8 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testGetDistanceValid(){
-		assert(c1.getCartesianDistance(c1) == 0.0);
-		assert(c1.getCartesianDistance(c5) == 3.0);
+		assert(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
+		assert(Math.abs(c1.getCartesianDistance(c5) - 3.0) < EPSIOLON);
 	}
 	
 	@Test(expected = ArithmeticException.class)
