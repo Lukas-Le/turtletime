@@ -1,5 +1,5 @@
 /*
-* CoordinateTest
+* CartesianCoordinateTest
 *
 * version 1.0
 *
@@ -14,7 +14,7 @@ package org.wahlzeit.model;
 import static org.junit.Assert.*;
 import org.junit.*;
 
-public class CoordinateTest {
+public class CartesianCoordinateTest {
 
 	private Coordinate c1;
 	private Coordinate c2;
@@ -26,21 +26,21 @@ public class CoordinateTest {
 	
 	@Before
 	public void init(){
-		c1 = new Coordinate(1.0,2.0,3.0);
-		c2 = new Coordinate(2.4,2.1,3.1);
-		c3 = new Coordinate(3.1,3.2,3.3);
-		c4 = new Coordinate(3.1,3.2,3.3);
-		c5 = new Coordinate(-1.0,1.0,1.0);
+		c1 = new CartesianCoordinate(1.0,2.0,3.0);
+		c2 = new CartesianCoordinate(2.4,2.1,3.1);
+		c3 = new CartesianCoordinate(3.1,3.2,3.3);
+		c4 = new CartesianCoordinate(3.1,3.2,3.3);
+		c5 = new CartesianCoordinate(-1.0,1.0,1.0);
 		s = new String("test");
 	}
 	
 	@Test
 	public void testInitValid(){
-		new Coordinate(c1);
-		new Coordinate(c2);
-		new Coordinate(c3);
-		new Coordinate(c4);
-		new Coordinate(Double.MAX_VALUE,Double.MIN_VALUE,0.0);
+		new CartesianCoordinate(c1);
+		new CartesianCoordinate(c2);
+		new CartesianCoordinate(c3);
+		new CartesianCoordinate(c4);
+		new CartesianCoordinate(Double.MAX_VALUE,Double.MIN_VALUE,0.0);
 	}
 	
 	/*
@@ -116,19 +116,15 @@ public class CoordinateTest {
 		}
 	}
 	*/
-	
-	@Test
-	public void testInvalidSetter(){
-		c1.setZ(Double.NaN);
-	}
+
 	
 	
 	
 	@Test
 	public void testValidGetter(){
-		assert(c1.getX() == 1.0);
-		assert(c1.getY() == 2.0);
-		assert(c1.getZ() == 3.0);
+		assert(c1.asCartesianCoordinate().getX() == 1.0);
+		assert(c1.asCartesianCoordinate().getY() == 2.0);
+		assert(c1.asCartesianCoordinate().getZ() == 3.0);
 	}
 	
 	@Test
@@ -152,15 +148,15 @@ public class CoordinateTest {
 	
 	@Test
 	public void testGetDistanceValid(){
-		assert(c1.getDistance(c1) == 0.0);
-		assert(c1.getDistance(c5) == 3.0);
+		assert(c1.getCartesianDistance(c1) == 0.0);
+		assert(c1.getCartesianDistance(c5) == 3.0);
 	}
 	
 	@Test(expected = ArithmeticException.class)
 	public void testGetDistanceInValid(){
-		Coordinate max = new Coordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
-		Coordinate min = new Coordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE);
-		max.getDistance(min);
+		Coordinate max = new CartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
+		Coordinate min = new CartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE);
+		max.getCartesianDistance(min);
 	}
 	
 

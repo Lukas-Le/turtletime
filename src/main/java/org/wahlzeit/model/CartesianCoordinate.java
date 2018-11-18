@@ -13,16 +13,18 @@
 
 package org.wahlzeit.model;
 
-public class Coordinate {
+public class CartesianCoordinate implements Coordinate{
 	
 	private double x;
 	private double y;
 	private double z;
 	
+	private final static double EPSILON = 1e-14;
+	
 	/**
 	 * @methodtype constructor
 	 */
-	public Coordinate(double x, double y, double z){
+	public CartesianCoordinate(double x, double y, double z){
 		setX(x);
 		setY(y);
 		setZ(z);
@@ -31,11 +33,12 @@ public class Coordinate {
 	/**
 	 * @methodtype constructor
 	 */
-	public Coordinate(Coordinate c){
+	public CartesianCoordinate(Coordinate c){
 		if(c!=null){
-			setX(c.getX());
-			setY(c.getY());
-			setZ(c.getZ());
+			CartesianCoordinate cc = c.asCartesianCoordinate();
+			setX(cc.getX());
+			setY(cc.getY());
+			setZ(cc.getZ());
 		}
 	}
 	
@@ -71,7 +74,7 @@ public class Coordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setCoordinates(double x,double y, double z){
+	private void setCoordinates(double x,double y, double z){
 		setX(x);
 		setY(y);
 		setZ(z);
@@ -80,7 +83,7 @@ public class Coordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setX(double x){
+	private void setX(double x){
 		if(!check_double(x)){
 			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
 		}
@@ -90,7 +93,7 @@ public class Coordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setY(double y){
+	private void setY(double y){
 		if(!check_double(x)){
 			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
 		}
@@ -100,7 +103,7 @@ public class Coordinate {
 	/**
 	 * @methodtype set
 	 */
-	public void setZ(double z){
+	private void setZ(double z){
 		if(!check_double(x)){
 			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
 		}
@@ -110,12 +113,12 @@ public class Coordinate {
 	/**
 	 * @methodtype boolean-query
 	 */
-	public boolean isEqual(Coordinate c){
+	private boolean doIsEqual(CartesianCoordinate c){
 		if(c == null){
 			return false;
 		}
 		
-		if(c.getX() == x && c.getY() == y && c.getZ() == z){
+		if(Math.abs(c.getX() - x) < EPSILON &&  Math.abs(c.getY() - y) < EPSILON && Math.abs(c.getZ() - z) < EPSILON ){
 			return true;
 		} else{
 			return false;
@@ -146,7 +149,7 @@ public class Coordinate {
 	 * @exception: throws ArithmeticException when any overflow occurs
 	 *             throws IllegalArgumentException when Coordinate is null
 	 */
-	public double getDistance(Coordinate c){
+	private double doGetDistance(CartesianCoordinate c){
 		if(c == null){
 			throw new IllegalArgumentException("Coordinate must not be null");
 		}
@@ -174,6 +177,93 @@ public class Coordinate {
 		}
 		
 		return Math.sqrt(sum);
+	}
+
+	
+	@Override
+	public CartesianCoordinate asCartesianCoordinate() {
+		// TODO Auto-generated method stub
+		CartesianCoordinate c = new CartesianCoordinate(x,y,z);
+		return c;
+	}
+
+	@Override
+	public double getCartesianDistance(Coordinate c) {
+		if(c == null)
+			throw new IllegalArgumentException("getCartesianDistance must be called with a non null value");
+		
+		return doGetDistance(c.asCartesianCoordinate());
+	}
+	
+	private double getRadius(double x,double y, double z){
+		double xx = x * x;
+		double yy = y * y;
+		double zz = z * z;
+		if(x != 0 && Math.abs(xx / x -x) >= EPSILON)
+			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
+		
+		if(y != 0 &&  Math.abs(yy / y -y) >= EPSILON)
+			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
+		
+		if(z != 0 &&  Math.abs(zz /z -z ) >= EPSILON)
+			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
+		
+			
+		double xy = xx + yy;
+		if( Math.abs(xy - xx - yy) >= EPSILON)
+			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
+		
+		double yz = yy + zz;
+		if(Math.abs(yz - zz - yy) >= EPSILON)
+			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
+		
+		double r = Math.sqrt(yz);
+		return r;
+	}
+
+	@Override
+	public SphericCoordinate asSphericCoordinate() {
+		
+		double r = getRadius(x, y, z);
+		double theta;
+		if(r != 0){
+			theta = Math.acos(z/r);
+		}
+		else{
+			theta = 0;
+		}
+		double phi;
+		if(x != 0){
+			phi = Math.atan(y/x);
+		}
+		else{
+			phi = 0;
+		}
+		
+		return new SphericCoordinate(phi, theta, r);
+	}
+
+	@Override
+	public double getCentralAngle(Coordinate c) {
+		if(c == null)
+			throw new IllegalArgumentException("Coordinate for getCentralAngle must not be null");
+		CartesianCoordinate cc = c.asCartesianCoordinate();
+		double dx = cc.x - this.y;
+		double dy = cc.y - this.y;
+		double dz = cc.z - this.z;
+		
+		double c_wiki = getRadius(dx, dy, dz);
+		double result = 2 * Math.asin(c_wiki/2);
+		return result;
+	}
+
+	@Override
+	public boolean isEqual(Coordinate c) {
+		if(c == null)
+			return false;
+		CartesianCoordinate cc = c.asCartesianCoordinate();
+		
+		return this.doIsEqual(cc);
 	}
 }
 

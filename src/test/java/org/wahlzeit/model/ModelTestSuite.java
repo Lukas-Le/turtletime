@@ -27,7 +27,8 @@ import org.wahlzeit.model.turtle.TurtlePhotoTestSuite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 	AccessRightsTest.class,
-	CoordinateTest.class,
+	CartesianCoordinateTest.class,
+	SphericCoordinateTest.class,
 	FlagReasonTest.class, 
 	GenderTest.class, 
 	GuestTest.class,

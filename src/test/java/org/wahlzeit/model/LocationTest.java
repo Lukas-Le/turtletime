@@ -26,9 +26,9 @@ public class LocationTest {
 	
 	@Before
 	public void init() {
-		c1 = new Coordinate(1.0, 1.0, 1.0);
-		c2 = new Coordinate(c1);
-		c3 = new Coordinate(1.0,2.0,3.0);
+		c1 = new CartesianCoordinate(1.0, 1.0, 1.0);
+		c2 = new CartesianCoordinate(c1);
+		c3 = new CartesianCoordinate(1.0,2.0,3.0);
 		l = new Location(c1);
 	}
 
