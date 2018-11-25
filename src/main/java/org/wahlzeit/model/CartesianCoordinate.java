@@ -13,7 +13,7 @@
 
 package org.wahlzeit.model;
 
-public class CartesianCoordinate implements Coordinate{
+public class CartesianCoordinate extends AbstractCoordinate{
 	
 	private double x;
 	private double y;
@@ -213,8 +213,8 @@ public class CartesianCoordinate implements Coordinate{
 		if( Math.abs(xy - xx - yy) >= EPSILON)
 			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
 		
-		double yz = yy + zz;
-		if(Math.abs(yz - zz - yy) >= EPSILON)
+		double yz = xy + zz;
+		if(Math.abs(yz - zz - xy) >= EPSILON)
 			throw new ArithmeticException("overflow in calc in asSphericCoordinate");
 		
 		double r = Math.sqrt(yz);

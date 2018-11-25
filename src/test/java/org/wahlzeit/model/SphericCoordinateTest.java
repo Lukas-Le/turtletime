@@ -52,53 +52,44 @@ public class SphericCoordinateTest {
 		
 	}
 	
+
 	
-	//this works in JUnit perfectly fine but with gradlew test this does not work! :/
-	//as I discovered somethine similiar before (gradle complaining that it throws an execption
-	//even though I specified that it throws an exception - working in JUnit)
-	// A tip of the internet to change the annotation to @After/@Before did not work either.
-	/*
 	@Test
 	public void testValidGetter(){
 		double b = Math.abs(c1.asCartesianCoordinate().getX() - 1.0);
 		boolean bb = b < EPSIOLON;
 		assert(bb);
-		assert(Math.abs(c1.asCartesianCoordinate().getY() - 2.0) < EPSIOLON);
-		assert(Math.abs(c1.asCartesianCoordinate().getZ() - 3.0) < EPSIOLON);
+		Assert.assertTrue(Math.abs(c1.asCartesianCoordinate().getY() - 2.0) < EPSIOLON);
+		Assert.assertTrue(Math.abs(c1.asCartesianCoordinate().getZ() - 3.0) < EPSIOLON);
 	}
-	*/
+	
 	
 	
 	@Test
 	public void testIsEqual(){
-		assert(!c1.isEqual(c2));
-		assert(!c1.isEqual(c3));
-		assert(!c2.isEqual(c3));
-		assert(c3.isEqual(c4));
-		assert(!c1.isEqual(null));
+		Assert.assertFalse(c1.isEqual(c2));
+		Assert.assertFalse(c1.isEqual(c3));
+		Assert.assertFalse(c2.isEqual(c3));
+		Assert.assertTrue(c3.isEqual(c4));
+		Assert.assertFalse(c1.isEqual(null));
 	}
 	
 	@Test
 	public void testEquals(){
-		assert(!c1.equals(c2));
-		assert(!c1.equals(c3));
-		assert(!c2.equals(c3));
-		assert(c3.equals(c4));
-		assert(!c1.equals(null));
-		assert(!c1.equals(s));
+		Assert.assertFalse(c1.equals(c2));
+		Assert.assertFalse(c1.equals(c3));
+		Assert.assertFalse(c2.equals(c3));
+		Assert.assertTrue(c3.equals(c4));
+		Assert.assertFalse(c1.equals(null));
+		Assert.assertFalse(c1.equals(s));
 	}
 	
 	
-	//this works in JUnit perfectly fine but with gradlew teset this does not work! :/
-	//as I discovered somethine similiar before (gradle complaining that it throws an execption
-	//even though I specified that it throws an exception - working in JUnit)
-	/*
 	@Test
 	public void testGetDistanceValid(){
-		assert(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
-		assert(Math.abs(c1.getCartesianDistance(c5) - 3.0) < EPSIOLON);
+		Assert.assertTrue(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
 	}
-	*/
+	
 	
 	@Test(expected = ArithmeticException.class)
 	public void testGetDistanceInValid(){

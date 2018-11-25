@@ -13,7 +13,7 @@ import org.wahlzeit.model.Coordinate;
 * This class handles Coordinates. The have to be initialized with reasonable values (Infinity and NaN is not accepted).
 * If an overflow occurs in any calculation an ArithmeticException is thrown.
 */
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 	
 	private double phi;
 	private double theta;
@@ -151,16 +151,6 @@ public class SphericCoordinate implements Coordinate {
 		return this.doIsEqual(c.asSphericCoordinate());
 	}
 	
-	@Override
-	public boolean equals(Object c) {
-		if(c == null)
-			return false;
-		if(c instanceof Coordinate){
-			return this.isEqual((Coordinate) c);
-		}
-		else{
-			return false;
-		}
-	}
+	
 
 }

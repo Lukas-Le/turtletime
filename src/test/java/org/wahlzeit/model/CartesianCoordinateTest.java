@@ -132,27 +132,27 @@ public class CartesianCoordinateTest {
 	
 	@Test
 	public void testIsEqual(){
-		assert(!c1.isEqual(c2));
-		assert(!c1.isEqual(c3));
-		assert(!c2.isEqual(c3));
-		assert(c3.isEqual(c4));
-		assert(!c1.isEqual(null));
+		Assert.assertFalse(c1.isEqual(c2));
+		Assert.assertFalse(c1.isEqual(c3));
+		Assert.assertFalse(c2.isEqual(c3));
+		Assert.assertTrue(c3.isEqual(c4));
+		Assert.assertFalse(c1.isEqual(null));
 	}
 	
 	@Test
 	public void testEquals(){
-		assert(!c1.equals(c2));
-		assert(!c1.equals(c3));
-		assert(!c2.equals(c3));
-		assert(c3.equals(c4));
-		assert(!c1.equals(null));
-		assert(!c1.equals(s));
+		Assert.assertFalse(c1.equals(c2));
+		Assert.assertFalse(c1.equals(c3));
+		Assert.assertFalse(c2.equals(c3));
+		Assert.assertTrue(c3.equals(c4));
+		Assert.assertFalse(c1.equals(null));
+		Assert.assertFalse(c1.equals(s));
 	}
 	
 	@Test
 	public void testGetDistanceValid(){
-		assert(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
-		assert(Math.abs(c1.getCartesianDistance(c5) - 3.0) < EPSIOLON);
+		Assert.assertTrue(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
+		Assert.assertTrue(Math.abs(c1.getCartesianDistance(c5) - 3.0) < EPSIOLON);
 	}
 	
 	@Test(expected = ArithmeticException.class)
