@@ -1,6 +1,10 @@
 package org.wahlzeit.model;
 
+import static org.junit.Assert.*;
+import org.junit.*;
 import org.wahlzeit.model.Coordinate;
+import org.wahlzeit.model.AssertCoordinateInvariants;
+
 /*
 * SphericCoordinate
 *
@@ -25,24 +29,43 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(double phi, double theta, double radius){
-		setPhi(phi);
-		setTheta(theta);
-		setRadius(radius);
+		
+		//preconditions
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		
+		
+		
+		this.phi = phi;
+		this.theta = theta;
+		this.radius = radius;
+		
+		AssertCoordinateInvariants.assertThreeAssignments(phi, theta, radius, this.phi, this.theta, this.radius);
+		AssertCoordinateInvariants.assertCoordinate(this.phi, this.theta, this.radius);
 	}
 	
 	/**
 	 * @methodtype constructor
 	 */
 	public SphericCoordinate(Coordinate c){
-		if(c!=null){
-			SphericCoordinate sp = c.asSphericCoordinate();
-			if(sp == null){
-				throw new IllegalArgumentException("Coordinate can not be parsed corretly. Internal error!");
-			}
-			setPhi(sp.getPhi());
-			setTheta(sp.getTheta());
-			setTheta(sp.getRadius());
-		}
+		
+		
+		Assert.assertNotNull(c);
+		Assert.assertNotNull(c.asSphericCoordinate());
+		SphericCoordinate cartPre = c.asSphericCoordinate();
+		AssertCoordinateInvariants.assertSphericCoordinate(cartPre.phi, cartPre.theta, cartPre.radius);
+		
+		SphericCoordinate sp = c.asSphericCoordinate();
+
+		this.phi = sp.phi;
+		this.theta = sp.theta;
+		this.radius = sp.radius;
+		
+		//postcondtions
+		SphericCoordinate cartPost = c.asSphericCoordinate();
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		AssertCoordinateInvariants.assertThreeAssignments(phi,theta,radius,cartPost.phi,cartPost.theta,cartPost.radius);
+		
+		
 	}
 	
 	
@@ -68,49 +91,51 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 	
 	
-
-	private boolean check_double(double d){
-		//checks for infinity and NaN.
-		return Double.isFinite(d);
-	}
 	
 	/**
 	 * @methodtype set
 	 */
+	@Deprecated
 	private void setPhi(double phi){
-		if(!check_double(phi)){
-			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
-		}
+		AssertCoordinateInvariants.assertSingleDoubleValue(phi);
 		this.phi = phi;
 	}
 	
 	/**
 	 * @methodtype set
 	 */
+	@Deprecated
 	private void setTheta(double theta){
-		if(!check_double(theta)){
-			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
-		}
+		AssertCoordinateInvariants.assertSingleDoubleValue(theta);
 		this.theta = theta;
 	}
 	
 	/**
 	 * @methodtype set
 	 */
+	@Deprecated
 	private void setRadius(double radius){
-		if(!check_double(radius)){
-			throw new IllegalArgumentException("input of double must not be NaN or neg. or pos. infinity");
-		}
+		AssertCoordinateInvariants.assertSingleDoubleValue(radius);
 		this.radius = radius;
 	}
 	
 	
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
+		
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+
+		
 		double x = radius * Math.sin(theta) * Math.cos(phi);
 		double y = radius * Math.sin(theta) * Math.sin(phi);
 		double z = radius * Math.cos(theta);
-		return new CartesianCoordinate(x,y,z);
+		CartesianCoordinate c =  new CartesianCoordinate(x,y,z);
+		
+		
+		Assert.assertNotNull(c); 
+		AssertCoordinateInvariants.assertCoordinate(c.getX(), c.getY(), c.getZ());
+
+		return c;
 	}
 
 	@Override
@@ -123,25 +148,62 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
+		//preconditions
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+
 		
-		return new SphericCoordinate(phi,theta,radius);
+		SphericCoordinate s =  new SphericCoordinate(phi,theta,radius);
+		
+		//postconditions
+		Assert.assertNotNull(s); 
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		return s;
 	}
 
 	@Override
 	public double getCentralAngle(Coordinate c) {
+		//preconditions
 		if(c == null)
 			throw new IllegalArgumentException("getCentralAngle must not be called with null");
-		return this.asCartesianCoordinate().getCentralAngle(c);
+		CartesianCoordinate buf = c.asCartesianCoordinate();
+		AssertCoordinateInvariants.assertCoordinate(buf.getX(), buf.getY(), buf.getZ());
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+
+		
+		
+		double ret =  this.asCartesianCoordinate().getCentralAngle(c);
+		
+		//postconditions
+		AssertCoordinateInvariants.assertSingleDoubleValue(ret);
+		return ret;
 
 	}
 
 	private boolean doIsEqual(SphericCoordinate c){
-		if(c == null)
-			return false;
-		if( Math.abs(phi - c.phi) < EPSILON && Math.abs(theta - c.theta) < EPSILON && Math.abs(radius-c.radius) < EPSILON)
-			return true;
-		else
-			return false;
+		
+		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		AssertCoordinateInvariants.assertSphericCoordinate(this.phi, this.theta, this.radius);
+		
+		boolean ret;
+		
+		
+		if(c == null){
+			ret =  false;
+		} else{
+			if( Math.abs(phi - c.phi) < EPSILON && Math.abs(theta - c.theta) < EPSILON && Math.abs(radius-c.radius) < EPSILON)
+				ret =  true;
+			else
+				ret = false;
+		}
+		
+		
+		AssertCoordinateInvariants.assertIfThenCheck(c == null, false, ret);
+		AssertCoordinateInvariants.assertIfThenCheck(Math.abs(c.getPhi() - phi) >= EPSILON, false, ret);
+		AssertCoordinateInvariants.assertIfThenCheck(Math.abs(c.getTheta() - theta) >= EPSILON, false, ret);
+		AssertCoordinateInvariants.assertIfThenCheck(Math.abs(c.getRadius() - radius) >= EPSILON, false, ret);
+
+		
+		return ret;
 	}
 	
 	@Override

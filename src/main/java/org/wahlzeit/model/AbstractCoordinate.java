@@ -13,20 +13,30 @@ package org.wahlzeit.model;
 
 public abstract class AbstractCoordinate implements Coordinate{
 	
+	
 	@Override
 	public abstract CartesianCoordinate asCartesianCoordinate();
 	
 	@Override
-	public abstract double getCartesianDistance(Coordinate c);
+	public double getCartesianDistance(Coordinate c){
+		CartesianCoordinate cc = this.asCartesianCoordinate();
+		return cc.getCartesianDistance(c);
+	}
 	
 	@Override
 	public abstract SphericCoordinate asSphericCoordinate();
 	
 	@Override
-	public abstract double getCentralAngle(Coordinate c);
+	public double getCentralAngle(Coordinate c){
+		CartesianCoordinate cc = this.asCartesianCoordinate();
+		return cc.getCentralAngle(c);
+	}
 	
 	@Override
-	public abstract boolean isEqual(Coordinate c);
+	public boolean isEqual(Coordinate c){
+		CartesianCoordinate cc = this.asCartesianCoordinate();
+		return cc.isEqual(c);
+	}
 	
 	@Override
 	public boolean equals(Object o){
