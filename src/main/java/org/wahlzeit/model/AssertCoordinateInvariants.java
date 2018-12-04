@@ -19,40 +19,51 @@ public class AssertCoordinateInvariants {
 	/*
 	 * check for valid double. Useful for setter functions
 	 */
-	static public void assertSingleDoubleValue(double d){
+	static public void assertSingleDoubleValue(double d) throws IllegalArgumentException{
 		//checks for infinity and NaN.
-		Assert.assertTrue( Double.isFinite(d));
+		if(! Double.isFinite(d)){
+			throw new IllegalArgumentException("double must not be NaN or pos. or neg. infinity");
+		}
 	}
 	
-	static public void assertCoordinate(double x, double y, double z){
-		assertSingleDoubleValue(x);
-		assertSingleDoubleValue(y);
-		assertSingleDoubleValue(z);
+	static public void assertCoordinate(double x, double y, double z) throws CoordinateException{
+		try{
+			assertSingleDoubleValue(x);
+			assertSingleDoubleValue(y);
+			assertSingleDoubleValue(z);
+		}
+		catch(IllegalArgumentException e){
+			throw new CoordinateException("At least one coordinate value ist not valid(NaN,pos. or neg. infinity");
+		}
 	}
 	
-	static public void assertThreeAssignments(double x, double y, double z,double a1,double a2, double a3){
+	static public void assertThreeAssignments(double x, double y, double z,double a1,double a2, double a3) throws CoordinateException{
 		//I do not use assertEquals because this is deprecated
-		Assert.assertTrue(x == a1);
-		Assert.assertTrue(y == a2);
-		Assert.assertTrue(z == a3);
+		if(x != a1 || y != a2 || z != a3){
+			throw new CoordinateException("Internal error: Assignment of coordinates ist not correct.");
+		}
+	
 	}
 	
-	static public void assertIfThenCheck(boolean if_condition,boolean then_condition_should,boolean then_condition_is){
+	static public void assertIfThenCheck(boolean if_condition,boolean then_condition_should,boolean then_condition_is) throws CoordinateException{
 		if(if_condition){
-			Assert.assertEquals(then_condition_should, then_condition_is);
+			if(then_condition_should != then_condition_is){
+				throw new CoordinateException("internal error: condition check failed!");
+			}
 		}
 		
 	}
 	
 	
-	static public void assertSphericCoordinate(double phi, double theta,double r){
+	static public void assertSphericCoordinate(double phi, double theta,double r) throws CoordinateException{
 		assertCoordinate(phi, theta, r);
 		
-		
-		
-		Assert.assertTrue(phi >= -Math.PI && phi <= Math.PI);
-		Assert.assertTrue(theta >= -Math.PI && theta <= Math.PI);
-		Assert.assertTrue(r >= 0);
+		if(    !(phi >= -Math.PI && phi <= Math.PI) ||
+				!(theta >= -Math.PI && theta <= Math.PI) || 
+				!(r >= 0)){
+			throw new CoordinateException("At least one of the SphericCoordinate is not in valid range");
+		}
+			
 
 	}
 }

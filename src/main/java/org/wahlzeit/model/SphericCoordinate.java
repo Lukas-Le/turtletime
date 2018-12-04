@@ -28,7 +28,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype constructor
 	 */
-	public SphericCoordinate(double phi, double theta, double radius){
+	public SphericCoordinate(double phi, double theta, double radius) throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
@@ -46,7 +46,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	/**
 	 * @methodtype constructor
 	 */
-	public SphericCoordinate(Coordinate c){
+	public SphericCoordinate(Coordinate c) throws CoordinateException{
 		
 		
 		Assert.assertNotNull(c);
@@ -96,7 +96,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setPhi(double phi){
+	private void setPhi(double phi) throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(phi);
 		this.phi = phi;
 	}
@@ -105,7 +105,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setTheta(double theta){
+	private void setTheta(double theta) throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(theta);
 		this.theta = theta;
 	}
@@ -114,7 +114,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setRadius(double radius){
+	private void setRadius(double radius) throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(radius);
 		this.radius = radius;
 	}
@@ -122,24 +122,29 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
-		
-		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		CartesianCoordinate c;
+		try{
+			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
 
 		
-		double x = radius * Math.sin(theta) * Math.cos(phi);
-		double y = radius * Math.sin(theta) * Math.sin(phi);
-		double z = radius * Math.cos(theta);
-		CartesianCoordinate c =  new CartesianCoordinate(x,y,z);
+			double x = radius * Math.sin(theta) * Math.cos(phi);
+			double y = radius * Math.sin(theta) * Math.sin(phi);
+			double z = radius * Math.cos(theta);
+			c =  new CartesianCoordinate(x,y,z);
 		
 		
-		Assert.assertNotNull(c); 
-		AssertCoordinateInvariants.assertCoordinate(c.getX(), c.getY(), c.getZ());
+			Assert.assertNotNull(c); 
+			AssertCoordinateInvariants.assertCoordinate(c.getX(), c.getY(), c.getZ());
+		}
+		catch(CoordinateException e){
+			throw new RuntimeException("Internal Error: Severe error in asCartesian! This message indicates a bug and not wrong usage!");
+		}
 
 		return c;
 	}
 
 	@Override
-	public double getCartesianDistance(Coordinate c) {
+	public double getCartesianDistance(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		if(c == null)
 			throw new IllegalArgumentException("getCartesianDistance must not be called with null");
 		return this.asCartesianCoordinate().getCartesianDistance(c);
@@ -148,20 +153,29 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
-		//preconditions
-		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		SphericCoordinate s;
+	
+		try{
+			//preconditions
+			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
 
 		
-		SphericCoordinate s =  new SphericCoordinate(phi,theta,radius);
+			s =  new SphericCoordinate(phi,theta,radius);
 		
-		//postconditions
-		Assert.assertNotNull(s); 
-		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+			//postconditions
+			Assert.assertNotNull(s); 
+			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
+		}
+		//transform checked Error into unchecked error
+		catch(CoordinateException e){
+			e.printStackTrace();
+			throw new RuntimeException("Internal Error: This indicates a bug in asSphericCoordinate -->see stacktrace");
+		}
 		return s;
 	}
 
 	@Override
-	public double getCentralAngle(Coordinate c) {
+	public double getCentralAngle(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		//preconditions
 		if(c == null)
 			throw new IllegalArgumentException("getCentralAngle must not be called with null");
@@ -179,7 +193,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	}
 
-	private boolean doIsEqual(SphericCoordinate c){
+	private boolean doIsEqual(SphericCoordinate c) throws CoordinateException{
 		
 		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
 		AssertCoordinateInvariants.assertSphericCoordinate(this.phi, this.theta, this.radius);
@@ -210,7 +224,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 	public boolean isEqual(Coordinate c) {
 		if(c == null)
 			return false;
-		return this.doIsEqual(c.asSphericCoordinate());
+		try{
+			return this.doIsEqual(c.asSphericCoordinate());
+		}
+		//transform checked Exception into unchecked Exception because this error is cause by internal faults and
+		// does not indicate a misusage of the function.
+		catch(CoordinateException e){
+			e.printStackTrace();
+			throw new RuntimeException("internal Error in isEqual. See stacktrace");
+		}
 	}
 	
 	

@@ -102,6 +102,7 @@ public class TurtlePhotoFactory extends PhotoFactory{
 	 * Creates a new photo with the specified id
 	 */
 	public TurtlePhoto createTurtlePhoto(PhotoId id) {
+		TurtleAssertions.assertNotNull(id);
 		return new TurtlePhoto(id);
 	}
 	

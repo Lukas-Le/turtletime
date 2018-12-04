@@ -10,6 +10,7 @@
 package org.wahlzeit.model;
 import org.wahlzeit.model.*;
 import org.wahlzeit.model.Coordinate;
+import org.wahlzeit.model.turtle.TurtleAssertions;
 
 public class Location {
 	public Coordinate coordinate;
@@ -23,6 +24,7 @@ public class Location {
 	 * @methodtype constructor
 	 */
 	public Location(Coordinate coordinate){
+		TurtleAssertions.assertNotNull(coordinate);
 		this.coordinate = coordinate;
 	}
 	
@@ -43,6 +45,7 @@ public class Location {
 	 * @methodtype set
 	 */
 	public void setCoordinate(Coordinate coordinate){
+		TurtleAssertions.assertNotNull(coordinate);
 		this.coordinate = coordinate;
 	}
 	

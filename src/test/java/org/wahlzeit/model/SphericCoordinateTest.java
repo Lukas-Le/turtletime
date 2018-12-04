@@ -29,12 +29,30 @@ public class SphericCoordinateTest {
 	
 	@Before
 	public void init(){
+		try{
 		c1 = new CartesianCoordinate(1.0,2.0,3.0).asSphericCoordinate();
 		c2 = new CartesianCoordinate(2.4,2.1,3.1).asSphericCoordinate();
 		c3 = new CartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
 		c4 = new CartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
 		c5 = new CartesianCoordinate(-1.0,1.0,1.0).asSphericCoordinate();
 		s = new String("test");
+		}
+		catch(CoordinateException e){
+			e.printStackTrace();
+			Assert.assertTrue(false);
+		}
+	}
+	
+	
+	public void testInvalidCoordinate(){
+		boolean worked = false;
+		try{
+			SphericCoordinate c = new SphericCoordinate(50, 1, 2);
+		}
+		catch(CoordinateException e){
+			worked = true;
+		}
+		Assert.assertTrue(worked);
 	}
 	
 	@Test
@@ -43,10 +61,16 @@ public class SphericCoordinateTest {
 		Assert.assertNotNull(c2);
 		Assert.assertNotNull(c3);
 		Assert.assertNotNull(c4);
-		new SphericCoordinate(c1);
-		new SphericCoordinate(c2);
-		new SphericCoordinate(c3);
-		new SphericCoordinate(c4);
+		try{
+			new SphericCoordinate(c1);
+			new SphericCoordinate(c2);
+			new SphericCoordinate(c3);
+			new SphericCoordinate(c4);
+		}
+		catch(CoordinateException e){
+			e.printStackTrace();
+			Assert.assertTrue("exception must not occur",false);
+		}
 		//--> the command below leads to an overflow due to conversion!
 		//new CartesianCoordinate(Double.MAX_VALUE/4,Double.MIN_VALUE/4,0.0).asSphericCoordinate();
 		
@@ -87,15 +111,27 @@ public class SphericCoordinateTest {
 	
 	@Test
 	public void testGetDistanceValid(){
-		Assert.assertTrue(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
+		try{
+			Assert.assertTrue(Math.abs(c1.getCartesianDistance(c1) - 0.0) < EPSIOLON);
+		}
+		catch(CoordinateException e){
+			e.printStackTrace();
+			throw new RuntimeException("testGetDistanceValid failed");
+		}
 	}
 	
 	
 	@Test(expected = ArithmeticException.class)
 	public void testGetDistanceInValid(){
+		try{
 		Coordinate max = new CartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE).asSphericCoordinate();
 		Coordinate min = new CartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE).asSphericCoordinate();
 		max.getCartesianDistance(min);
+		}
+		catch(CoordinateException e){
+			e.printStackTrace();
+			throw new RuntimeException("testGetDistanceValid faild with exception");
+		}
 	}
 	
 

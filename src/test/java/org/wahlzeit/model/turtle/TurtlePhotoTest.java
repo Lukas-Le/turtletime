@@ -43,6 +43,21 @@ public class TurtlePhotoTest extends TestCase{
 		TurtlePhoto p2 = new TurtlePhoto("green", "cool turtle", 14);
 	}
 	
+	
+	// this is basicly an @expected but the annotation does sadly not work for me:(
+	
+	@Test
+	public void testInvalidTurtlePhoto(){
+		boolean worked = false;
+		try{
+			TurtlePhoto t = new TurtlePhoto(null);
+		}
+		catch(IllegalArgumentException e){
+			worked = true;
+		}
+		Assert.assertTrue(worked);
+	}
+	
 	/*
 	 * don't know why this is not working :/
 	 * because it does throw an IllegalArgumentException if you leave out the 

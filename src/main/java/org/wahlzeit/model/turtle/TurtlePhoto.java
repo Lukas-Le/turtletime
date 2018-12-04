@@ -48,6 +48,7 @@ public class TurtlePhoto extends Photo{
 	}
 	
 	public TurtlePhoto(PhotoId myId) {
+		TurtleAssertions.assertNotNull(myId);
 		id = myId;
 
 		incWriteCount();
@@ -57,6 +58,10 @@ public class TurtlePhoto extends Photo{
 	 * @methodtype constructor
 	 */
 	public TurtlePhoto(String color, String breed, int age){
+		TurtleAssertions.assertNotNull(color);
+		TurtleAssertions.assertNotNull(breed);
+		if(age < 0)throw new IllegalArgumentException("age must be >0");
+		
 		setColor(color);
 		setBreed(breed);
 		setAge(age);
@@ -67,6 +72,7 @@ public class TurtlePhoto extends Photo{
 	 * @methodtype set
 	 */
 	public void setColor(String color){
+		TurtleAssertions.assertNotNull(color);
 		this.color = color;
 	}
 	
@@ -74,6 +80,7 @@ public class TurtlePhoto extends Photo{
 	 * @methodtype set
 	 */
 	public void setBreed(String breed){
+		TurtleAssertions.assertNotNull(breed);
 		this.breed = breed;
 	}
 	

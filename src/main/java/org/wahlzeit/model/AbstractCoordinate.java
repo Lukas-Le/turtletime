@@ -18,7 +18,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 	public abstract CartesianCoordinate asCartesianCoordinate();
 	
 	@Override
-	public double getCartesianDistance(Coordinate c){
+	public double getCartesianDistance(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		CartesianCoordinate cc = this.asCartesianCoordinate();
 		return cc.getCartesianDistance(c);
 	}
@@ -27,7 +27,7 @@ public abstract class AbstractCoordinate implements Coordinate{
 	public abstract SphericCoordinate asSphericCoordinate();
 	
 	@Override
-	public double getCentralAngle(Coordinate c){
+	public double getCentralAngle(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		CartesianCoordinate cc = this.asCartesianCoordinate();
 		return cc.getCentralAngle(c);
 	}

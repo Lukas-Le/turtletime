@@ -28,7 +28,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	/**
 	 * @methodtype constructor
 	 */
-	public CartesianCoordinate(double x, double y, double z){
+	public CartesianCoordinate(double x, double y, double z) throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertCoordinate(x, y, z);
@@ -47,7 +47,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	/**
 	 * @methodtype constructor
 	 */
-	public CartesianCoordinate(Coordinate c){
+	public CartesianCoordinate(Coordinate c) throws CoordinateException{
 		
 		//check preconditions
 		Assert.assertNotNull(c);
@@ -93,7 +93,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	/**
 	 * @methodtype set
 	 */
-	private void setCoordinates(double x,double y, double z){
+	private void setCoordinates(double x,double y, double z) throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertCoordinate(x, y, z);
@@ -114,7 +114,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setX(double x){
+	private void setX(double x) throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(x);
 		this.x = x;
 	}
@@ -123,7 +123,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setY(double y){
+	private void setY(double y) throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(x);
 		this.y = y;
 	}
@@ -132,7 +132,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	 * @methodtype set
 	 */
 	@Deprecated
-	private void setZ(double z){
+	private void setZ(double z)throws IllegalArgumentException{
 		AssertCoordinateInvariants.assertSingleDoubleValue(x);
 		this.z = z;
 	}
@@ -140,7 +140,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	/**
 	 * @methodtype boolean-query
 	 */
-	private boolean doIsEqual(CartesianCoordinate c){
+	private boolean doIsEqual(CartesianCoordinate c)throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertCoordinate(x, y, z);
@@ -199,7 +199,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	 * @exception: throws ArithmeticException when any overflow occurs
 	 *             throws IllegalArgumentException when Coordinate is null
 	 */
-	private double doGetDistance(CartesianCoordinate c){
+	private double doGetDistance(CartesianCoordinate c) throws CoordinateException,IllegalArgumentException,ArithmeticException{
 		
 		if(c == null){
 			throw new IllegalArgumentException("Coordinate must not be null");
@@ -238,29 +238,35 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
 	
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		// TODO Auto-generated method stub
+	public CartesianCoordinate asCartesianCoordinate(){
+		CartesianCoordinate c;
+		try{
+			//preconditions
+			AssertCoordinateInvariants.assertCoordinate(this.x, this.y, this.z);
 		
-		//preconditions
-		AssertCoordinateInvariants.assertCoordinate(this.x, this.y, this.z);
+			c = new CartesianCoordinate(x,y,z);
 		
-		CartesianCoordinate c = new CartesianCoordinate(x,y,z);
-		
-		//postconditions
-		Assert.assertNotNull(c); 
-		AssertCoordinateInvariants.assertCoordinate(c.x, c.y, c.z);
+			//postconditions
+			Assert.assertNotNull(c); 
+			AssertCoordinateInvariants.assertCoordinate(c.x, c.y, c.z);
+		}
+		//convert checked to unchecked Exception because this Exception indicates an internal misbehavior.
+		//A wrong input of the user is not possible, so the user should not be obligated to handle the error
+		catch(CoordinateException e){
+			throw new RuntimeException("Severe Internal Exception in Coordinate Class! This must not happen!");
+		}
 		return c;
 	}
 
 	@Override
-	public double getCartesianDistance(Coordinate c) {
+	public double getCartesianDistance(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		if(c == null)
 			throw new IllegalArgumentException("getCartesianDistance must be called with a non null value");
 		
 		return doGetDistance(c.asCartesianCoordinate());
 	}
 	
-	private double getRadius(double x,double y, double z){
+	private double getRadius(double x,double y, double z) throws ArithmeticException,CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertCoordinate(x, y, z);
@@ -299,37 +305,42 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	@Override
 	public SphericCoordinate asSphericCoordinate() {
 		
-		
-		AssertCoordinateInvariants.assertCoordinate(x, y, z);
-
-		
-		double r = getRadius(x, y, z);
-		double theta;
-		if(r != 0){
-			theta = Math.acos(z/r);
+		SphericCoordinate ret;
+		try{
+			AssertCoordinateInvariants.assertCoordinate(x, y, z);
+	
+			
+			double r = getRadius(x, y, z);
+			double theta;
+			if(r != 0){
+				theta = Math.acos(z/r);
+			}
+			else{
+				theta = 0;
+			}
+			double phi;
+			if(x != 0){
+				phi = Math.atan(y/x);
+			}
+			else{
+				phi = 0;
+			}
+			
+			ret = new SphericCoordinate(phi, theta, r);
+			
+			Assert.assertNotNull(ret);
+			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, r);
 		}
-		else{
-			theta = 0;
+		catch(CoordinateException e){
+			throw new RuntimeException("Internal error: Could not convert Coordinate to Spheric Coordinate");
 		}
-		double phi;
-		if(x != 0){
-			phi = Math.atan(y/x);
-		}
-		else{
-			phi = 0;
-		}
-		
-		SphericCoordinate ret = new SphericCoordinate(phi, theta, r);
-		
-		Assert.assertNotNull(ret);
-		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, r);
 		
 		return ret;
 		
 	}
 
 	@Override
-	public double getCentralAngle(Coordinate c) {
+	public double getCentralAngle(Coordinate c) throws IllegalArgumentException,CoordinateException{
 		//preconditions
 		if(c == null)
 			throw new IllegalArgumentException("Coordinate for getCentralAngle must not be null");
@@ -361,7 +372,15 @@ public class CartesianCoordinate extends AbstractCoordinate{
 			return false;
 		CartesianCoordinate cc = c.asCartesianCoordinate();
 		
-		return this.doIsEqual(cc);
+		try{
+			return this.doIsEqual(cc);
+		}
+		catch(CoordinateException e){
+			// inform about the error but the calculation propably can be executed after the failure.
+			// That is why I do not raise an Exception.
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
 
