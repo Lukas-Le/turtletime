@@ -27,9 +27,9 @@ public class LocationTest {
 	@Before
 	public void init() {
 		try{
-		c1 = new CartesianCoordinate(1.0, 1.0, 1.0);
-		c2 = new CartesianCoordinate(c1);
-		c3 = new CartesianCoordinate(1.0,2.0,3.0);
+		c1 = CartesianCoordinate.getCartesianCoordinate(1.0, 1.0, 1.0);
+		c2 = CartesianCoordinate.getCartesianCoordinate(1.0,1.0,1.0);
+		c3 = CartesianCoordinate.getCartesianCoordinate(1.0,2.0,3.0);
 		}
 		catch(CoordinateException e){
 			e.printStackTrace();

@@ -19,16 +19,16 @@ import org.wahlzeit.model.AssertCoordinateInvariants;
 */
 public class SphericCoordinate extends AbstractCoordinate {
 	
-	private double phi;
-	private double theta;
-	private double radius;
+	private final double phi;
+	private final double theta;
+	private final double radius;
 	
 	private final static double EPSILON = 1e-14;
 	
 	/**
 	 * @methodtype constructor
 	 */
-	public SphericCoordinate(double phi, double theta, double radius) throws CoordinateException{
+	private SphericCoordinate(double phi, double theta, double radius) throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
@@ -43,30 +43,17 @@ public class SphericCoordinate extends AbstractCoordinate {
 		AssertCoordinateInvariants.assertCoordinate(this.phi, this.theta, this.radius);
 	}
 	
-	/**
-	 * @methodtype constructor
-	 */
-	public SphericCoordinate(Coordinate c) throws CoordinateException{
-		
-		
-		Assert.assertNotNull(c);
-		Assert.assertNotNull(c.asSphericCoordinate());
-		SphericCoordinate cartPre = c.asSphericCoordinate();
-		AssertCoordinateInvariants.assertSphericCoordinate(cartPre.phi, cartPre.theta, cartPre.radius);
-		
-		SphericCoordinate sp = c.asSphericCoordinate();
-
-		this.phi = sp.phi;
-		this.theta = sp.theta;
-		this.radius = sp.radius;
-		
-		//postcondtions
-		SphericCoordinate cartPost = c.asSphericCoordinate();
-		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
-		AssertCoordinateInvariants.assertThreeAssignments(phi,theta,radius,cartPost.phi,cartPost.theta,cartPost.radius);
-		
-		
+	
+	public static SphericCoordinate getSphericCoordinate(double phi, double theta, double radius) throws CoordinateException{
+		SphericCoordinate c = new SphericCoordinate(phi, theta, radius);
+		if(SphericCoordinate.existsInCoordinateValObjMap(c)){
+			return (SphericCoordinate) getCoordinateInMap(c.hashCode());
+		} else{
+			insertInCoordinateHashMap(c);
+			return c;
+		}
 	}
+	
 	
 	
 	/**
@@ -92,34 +79,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 	
 	
 	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setPhi(double phi) throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(phi);
-		this.phi = phi;
-	}
-	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setTheta(double theta) throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(theta);
-		this.theta = theta;
-	}
-	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setRadius(double radius) throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(radius);
-		this.radius = radius;
-	}
-	
-	
 	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
 		CartesianCoordinate c;
@@ -130,7 +89,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 			double x = radius * Math.sin(theta) * Math.cos(phi);
 			double y = radius * Math.sin(theta) * Math.sin(phi);
 			double z = radius * Math.cos(theta);
-			c =  new CartesianCoordinate(x,y,z);
+			c =  CartesianCoordinate.getCartesianCoordinate(x,y,z);
 		
 		
 			Assert.assertNotNull(c); 
@@ -160,7 +119,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
 
 		
-			s =  new SphericCoordinate(phi,theta,radius);
+			s = this;
 		
 			//postconditions
 			Assert.assertNotNull(s); 
@@ -193,6 +152,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	}
 
+	
+	/*
+	 * theoraticly for value objects the comparision is performed by
+	 * "==" and the function should not be necessary any more.
+	 * Practicly there can be still an calculation error and that is why
+	 * this function should be kept.
+	 */
 	private boolean doIsEqual(SphericCoordinate c) throws CoordinateException{
 		
 		AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, radius);
@@ -220,6 +186,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return ret;
 	}
 	
+	
+	/*
+	 * theoraticly for value objects the comparision is performed by
+	 * "==" and the function should not be necessary any more.
+	 * Practicly there can be still an calculation error and that is why
+	 * this function should be kept.
+	 */
 	@Override
 	public boolean isEqual(Coordinate c) {
 		if(c == null)
@@ -234,7 +207,15 @@ public class SphericCoordinate extends AbstractCoordinate {
 			throw new RuntimeException("internal Error in isEqual. See stacktrace");
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
 	
-	
+	@Override
+	public String toString(){
+		return "SphericCoordinate: (" + phi + "," + theta + "," + radius + ")";
+	}
 
 }

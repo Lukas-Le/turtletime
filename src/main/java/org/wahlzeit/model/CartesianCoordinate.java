@@ -19,16 +19,17 @@ import org.wahlzeit.model.AssertCoordinateInvariants;
 
 public class CartesianCoordinate extends AbstractCoordinate{
 	
-	private double x;
-	private double y;
-	private double z;
+	//immutable coordinates
+	private final double x;
+	private final double y;
+	private final double z;
 	
 	private final static double EPSILON = 1e-14;
 	
 	/**
 	 * @methodtype constructor
 	 */
-	public CartesianCoordinate(double x, double y, double z) throws CoordinateException{
+	private CartesianCoordinate(double x, double y, double z) throws CoordinateException{
 		
 		//preconditions
 		AssertCoordinateInvariants.assertCoordinate(x, y, z);
@@ -44,28 +45,24 @@ public class CartesianCoordinate extends AbstractCoordinate{
 
 	}
 	
-	/**
-	 * @methodtype constructor
-	 */
-	public CartesianCoordinate(Coordinate c) throws CoordinateException{
-		
-		//check preconditions
-		Assert.assertNotNull(c);
-		Assert.assertNotNull(c.asCartesianCoordinate());
-		CartesianCoordinate cartPre = c.asCartesianCoordinate();
-		AssertCoordinateInvariants.assertCoordinate(cartPre.x, cartPre.y, cartPre.z);
-		
-		
-		CartesianCoordinate cc = c.asCartesianCoordinate();
-		this.x = cc.x;
-		this.y = cc.y;
-		this.z = cc.z;
-		
-		//postcondtions
-		CartesianCoordinate cartPost = c.asCartesianCoordinate();
-		AssertCoordinateInvariants.assertThreeAssignments(x, y, z, cartPost.x, cartPost.y, cartPost.z);
-		
+	public static CartesianCoordinate getCartesianCoordinate(double x,double y,double z) throws CoordinateException{
+		CartesianCoordinate c = new CartesianCoordinate(x, y, z);
+		if(existsInCoordinateValObjMap(c)){
+			//return CartesianCoordinate in HashMap
+			return (CartesianCoordinate) getCoordinateInMap(c.hashCode());
+		}
+		else{
+			//create new CartesianCoordinate and insert it in HashMap
+			insertInCoordinateHashMap(c);
+			return c;
+		}
+			
 	}
+	
+	/*
+	 * The getter receives primitive data types. 
+	 * So a final as return type is not necessary here.
+	 */
 	
 	/**
 	 * @methodtype get
@@ -91,54 +88,13 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	
 	
 	/**
-	 * @methodtype set
-	 */
-	private void setCoordinates(double x,double y, double z) throws CoordinateException{
-		
-		//preconditions
-		AssertCoordinateInvariants.assertCoordinate(x, y, z);
-		
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		
-		//postconditions
-		AssertCoordinateInvariants.assertCoordinate(this.x,this.y , this.z);
-		AssertCoordinateInvariants.assertThreeAssignments(x, y, z, this.x, this.y, this.z);
-
-	}
-	
-	
-	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setX(double x) throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(x);
-		this.x = x;
-	}
-	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setY(double y) throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(x);
-		this.y = y;
-	}
-	
-	/**
-	 * @methodtype set
-	 */
-	@Deprecated
-	private void setZ(double z)throws IllegalArgumentException{
-		AssertCoordinateInvariants.assertSingleDoubleValue(x);
-		this.z = z;
-	}
-	
-	/**
 	 * @methodtype boolean-query
+	 */
+	/*
+	 * theoraticly for value objects the comparision is performed by
+	 * "==" and the function should not be necessary any more.
+	 * Practicly there can be still an calculation error and that is why
+	 * this function should be kept.
 	 */
 	private boolean doIsEqual(CartesianCoordinate c)throws CoordinateException{
 		
@@ -171,6 +127,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 	}
 	
 	/**
+	 * See doIsEqual for an explanation why not "==" is used instead
 	 * @methodtype boolean-query
 	 */
 	public boolean equals(Object obj){
@@ -244,7 +201,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 			//preconditions
 			AssertCoordinateInvariants.assertCoordinate(this.x, this.y, this.z);
 		
-			c = new CartesianCoordinate(x,y,z);
+			c = this;
 		
 			//postconditions
 			Assert.assertNotNull(c); 
@@ -326,7 +283,7 @@ public class CartesianCoordinate extends AbstractCoordinate{
 				phi = 0;
 			}
 			
-			ret = new SphericCoordinate(phi, theta, r);
+			ret = SphericCoordinate.getSphericCoordinate(phi, theta, r);
 			
 			Assert.assertNotNull(ret);
 			AssertCoordinateInvariants.assertSphericCoordinate(phi, theta, r);
@@ -366,6 +323,13 @@ public class CartesianCoordinate extends AbstractCoordinate{
 		return result;
 	}
 
+	
+	/*
+	 * theoraticly for value objects the comparision is performed by
+	 * "==" and the function should not be necessary any more.
+	 * Practicly there can be still an calculation error and that is why
+	 * this function should be kept.
+	 */
 	@Override
 	public boolean isEqual(Coordinate c) {
 		if(c == null)
@@ -381,6 +345,16 @@ public class CartesianCoordinate extends AbstractCoordinate{
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode();
+	}
+	
+	@Override
+	public String toString(){
+		return "CartesianCoordinate: (" + x + "," + y + "," + z + ")";
 	}
 }
 

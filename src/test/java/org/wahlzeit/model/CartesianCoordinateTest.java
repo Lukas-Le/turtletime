@@ -31,11 +31,11 @@ public class CartesianCoordinateTest {
 	@Before
 	public void init(){
 		try{
-		c1 = new CartesianCoordinate(1.0,2.0,3.0);
-		c2 = new CartesianCoordinate(2.4,2.1,3.1);
-		c3 = new CartesianCoordinate(3.1,3.2,3.3);
-		c4 = new CartesianCoordinate(3.1,3.2,3.3);
-		c5 = new CartesianCoordinate(-1.0,1.0,1.0);
+		c1 = CartesianCoordinate.getCartesianCoordinate(1.0,2.0,3.0);
+		c2 = CartesianCoordinate.getCartesianCoordinate(2.4,2.1,3.1);
+		c3 = CartesianCoordinate.getCartesianCoordinate(3.1,3.2,3.3);
+		c4 = CartesianCoordinate.getCartesianCoordinate(3.1,3.2,3.3);
+		c5 = CartesianCoordinate.getCartesianCoordinate(-1.0,1.0,1.0);
 		s = new String("test");
 		}
 		catch(CoordinateException e){
@@ -49,7 +49,7 @@ public class CartesianCoordinateTest {
 	public void testInvalidCoordinate(){
 		boolean worked = false;
 		try{
-			CartesianCoordinate c = new CartesianCoordinate(Double.NaN, 1, 2);
+			CartesianCoordinate c = CartesianCoordinate.getCartesianCoordinate(Double.NaN, 1, 2);
 		}
 		catch(CoordinateException e){
 			worked = true;
@@ -62,11 +62,8 @@ public class CartesianCoordinateTest {
 	@Test
 	public void testInitValid(){
 		try{
-		new CartesianCoordinate(c1);
-		new CartesianCoordinate(c2);
-		new CartesianCoordinate(c3);
-		new CartesianCoordinate(c4);
-		new CartesianCoordinate(Double.MAX_VALUE,Double.MIN_VALUE,0.0);
+			//copy constructor has been deleted.
+			CartesianCoordinate.getCartesianCoordinate(Double.MAX_VALUE,Double.MIN_VALUE,0.0);
 		}
 		catch(CoordinateException e){
 			e.printStackTrace();
@@ -118,8 +115,8 @@ public class CartesianCoordinateTest {
 	@Test(expected = ArithmeticException.class)
 	public void testGetDistanceInValid(){
 		try{
-			Coordinate max = new CartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
-			Coordinate min = new CartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE);
+			Coordinate max = CartesianCoordinate.getCartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE);
+			Coordinate min = CartesianCoordinate.getCartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE);
 			max.getCartesianDistance(min);
 		}
 		catch(CoordinateException e){

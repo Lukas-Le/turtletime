@@ -30,11 +30,11 @@ public class SphericCoordinateTest {
 	@Before
 	public void init(){
 		try{
-		c1 = new CartesianCoordinate(1.0,2.0,3.0).asSphericCoordinate();
-		c2 = new CartesianCoordinate(2.4,2.1,3.1).asSphericCoordinate();
-		c3 = new CartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
-		c4 = new CartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
-		c5 = new CartesianCoordinate(-1.0,1.0,1.0).asSphericCoordinate();
+		c1 = CartesianCoordinate.getCartesianCoordinate(1.0,2.0,3.0).asSphericCoordinate();
+		c2 = CartesianCoordinate.getCartesianCoordinate(2.4,2.1,3.1).asSphericCoordinate();
+		c3 = CartesianCoordinate.getCartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
+		c4 = CartesianCoordinate.getCartesianCoordinate(3.1,3.2,3.3).asSphericCoordinate();
+		c5 = CartesianCoordinate.getCartesianCoordinate(-1.0,1.0,1.0).asSphericCoordinate();
 		s = new String("test");
 		}
 		catch(CoordinateException e){
@@ -47,7 +47,7 @@ public class SphericCoordinateTest {
 	public void testInvalidCoordinate(){
 		boolean worked = false;
 		try{
-			SphericCoordinate c = new SphericCoordinate(50, 1, 2);
+			SphericCoordinate c = SphericCoordinate.getSphericCoordinate(50, 1, 2);
 		}
 		catch(CoordinateException e){
 			worked = true;
@@ -62,10 +62,10 @@ public class SphericCoordinateTest {
 		Assert.assertNotNull(c3);
 		Assert.assertNotNull(c4);
 		try{
-			new SphericCoordinate(c1);
-			new SphericCoordinate(c2);
-			new SphericCoordinate(c3);
-			new SphericCoordinate(c4);
+			SphericCoordinate.getSphericCoordinate(1,1,1);
+			SphericCoordinate.getSphericCoordinate(0,1,1);
+			SphericCoordinate.getSphericCoordinate(0,1,2);
+			SphericCoordinate.getSphericCoordinate(1,0,3);
 		}
 		catch(CoordinateException e){
 			e.printStackTrace();
@@ -124,8 +124,8 @@ public class SphericCoordinateTest {
 	@Test(expected = ArithmeticException.class)
 	public void testGetDistanceInValid(){
 		try{
-		Coordinate max = new CartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE).asSphericCoordinate();
-		Coordinate min = new CartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE).asSphericCoordinate();
+		Coordinate max = CartesianCoordinate.getCartesianCoordinate(Double.MAX_VALUE,Double.MAX_VALUE,Double.MAX_VALUE).asSphericCoordinate();
+		Coordinate min = CartesianCoordinate.getCartesianCoordinate(Double.MIN_VALUE,Double.MIN_VALUE,Double.MIN_VALUE).asSphericCoordinate();
 		max.getCartesianDistance(min);
 		}
 		catch(CoordinateException e){
