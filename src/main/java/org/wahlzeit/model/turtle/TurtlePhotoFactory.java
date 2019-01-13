@@ -29,7 +29,15 @@ import org.wahlzeit.model.PhotoFilter;
 import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.model.PhotoTagCollector;
 import org.wahlzeit.services.LogBuilder;
+import org.wahlzeit.utils.PatternInstance;
 
+
+@PatternInstance(
+		patternName = "Abstract Factory",
+		participants = {
+			"AbstractFactory","ConcreteFactory"
+		}
+	)
 public class TurtlePhotoFactory extends PhotoFactory{
 
 	

@@ -48,11 +48,19 @@ import org.wahlzeit.model.UserManager;
 import org.wahlzeit.model.persistence.ImageStorage;
 import org.wahlzeit.services.LogBuilder;
 import org.wahlzeit.services.Persistent;
+import org.wahlzeit.utils.PatternInstance;
 
 import com.google.appengine.api.images.Image;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.Work;
 
+
+@PatternInstance(
+		patternName = "Singelton",
+		participants = {
+			"Singelton"
+		}
+	)
 public class TurtlePhotoManager extends PhotoManager{
 	
 	

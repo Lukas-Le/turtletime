@@ -21,12 +21,17 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.EnumValue;
+import org.wahlzeit.utils.PatternInstance;
 
 /**
  * The PhotoStatus of a Photo captures its state in the system.
  * A photo may be visible or invisible, it may have been flagged, and it may have been deleted.
  * These states are not mutually exclusive, hence the bitset simulation in this class.
  */
+@PatternInstance(
+		patternName = "State",
+		participants = { "State" }
+		)
 public enum PhotoStatus implements EnumValue {
 
 	/**

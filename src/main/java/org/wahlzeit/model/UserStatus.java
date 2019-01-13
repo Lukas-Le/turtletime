@@ -21,12 +21,17 @@
 package org.wahlzeit.model;
 
 import org.wahlzeit.utils.EnumValue;
+import org.wahlzeit.utils.PatternInstance;
 
 /**
  * The UserStatus of a User denotes its state within the system.
  * A user (account) may have been created, confirmed, or disabled.
  * These states are not mutually exclusive.
  */
+@PatternInstance(
+		patternName = "State",
+		participants = { "State" }
+		)
 public enum UserStatus implements EnumValue {
 
 	/**
