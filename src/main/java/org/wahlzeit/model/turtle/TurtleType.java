@@ -29,6 +29,17 @@ public class TurtleType {
 	
 	public void addChild(TurtleType t){
 		children.add(t);
+		t.setParent(this);
+	}
+	
+	public boolean isSubtype(TurtleType t){
+		TurtleType p = this;
+		while(p != null){
+			if(p.type.compareTo(t.type) == 0)
+				return true;
+			p = p.parent;
+		}
+		return false;
 	}
 	
 	public boolean isChild(TurtleType t){
