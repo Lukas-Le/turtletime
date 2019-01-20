@@ -26,6 +26,7 @@ import org.wahlzeit.model.Photo;
 import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.utils.PatternInstance;
 
+import com.googlecode.objectify.annotation.Serialize;
 import com.googlecode.objectify.annotation.Subclass;
 
 
@@ -38,28 +39,25 @@ import com.googlecode.objectify.annotation.Subclass;
 @Subclass
 public class TurtlePhoto extends Photo{
 
-	
-	
-	
-	private String color;
-	private String breed;
-	private int age;
-	
-	
+	@Serialize
+	private Turtle turtle;
 	
 	
 	/**
 	 * @methodtype constructor
 	 */
 	public TurtlePhoto(){
-	
+		//turtle = new Turtle();
 	}
 	
 	public TurtlePhoto(PhotoId myId) {
+		super(myId);
 		TurtleAssertions.assertNotNull(myId);
 		id = myId;
-
+		
+		
 		incWriteCount();
+		//turtle = new Turtle();
 	}
 	
 	/**
@@ -70,6 +68,7 @@ public class TurtlePhoto extends Photo{
 		TurtleAssertions.assertNotNull(breed);
 		if(age < 0)throw new IllegalArgumentException("age must be >0");
 		
+		turtle = TurtleManager.getInstance().createTurtle("PhotoTurtle");
 		setColor(color);
 		setBreed(breed);
 		setAge(age);
@@ -81,7 +80,7 @@ public class TurtlePhoto extends Photo{
 	 */
 	public void setColor(String color){
 		TurtleAssertions.assertNotNull(color);
-		this.color = color;
+		turtle.setColor(color);
 	}
 	
 	/**
@@ -89,7 +88,7 @@ public class TurtlePhoto extends Photo{
 	 */
 	public void setBreed(String breed){
 		TurtleAssertions.assertNotNull(breed);
-		this.breed = breed;
+		turtle.setBreed(breed);
 	}
 	
 	/**
@@ -98,27 +97,27 @@ public class TurtlePhoto extends Photo{
 	public void setAge(int age){
 		if(age < 0)
 			throw new IllegalArgumentException("age must be >= 0");
-		this.age = age;
+		turtle.setAge(age);
 	}
 	
 	/**
 	 * @methodtype get
 	 */
 	public String getColor(){
-		return color;
+		return turtle.getColor();
 	}
 	
 	/**
 	 * @methodtype get
 	 */
 	public String getBreed(){
-		return breed;
+		return turtle.getBreed();
 	}
 	
 	/**
 	 * @methodtype get
 	 */
 	public int getAge(){
-		return age;
+		return turtle.getAge();
 	}
 }

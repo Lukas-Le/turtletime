@@ -27,9 +27,14 @@ import org.junit.runners.Suite;
 	//AbstractAdapterTest.class,
 	TurtlePhotoFactoryTest.class,
 	TurtlePhotoManagerTest.class,
-	TurtlePhotoTest.class
+	TurtlePhotoTest.class,
+	
+	TurtleTypeTest.class,
+	TurtleTest.class,
+	TurtleManagerTest.class
+	
 	
 })
-public class TurtlePhotoTestSuite {
+public class TurtleTestSuite {
 
 }

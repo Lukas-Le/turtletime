@@ -22,7 +22,7 @@ package org.wahlzeit.model;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.wahlzeit.model.persistence.ModelPersistenceTestSuite;
-import org.wahlzeit.model.turtle.TurtlePhotoTestSuite;
+import org.wahlzeit.model.turtle.TurtleTestSuite;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -38,7 +38,7 @@ import org.wahlzeit.model.turtle.TurtlePhotoTestSuite;
 	UserStatusTest.class,
 	ValueTest.class,
 	ModelPersistenceTestSuite.class,
-	TurtlePhotoTestSuite.class
+	TurtleTestSuite.class
 	   
 })
 public class ModelTestSuite {
