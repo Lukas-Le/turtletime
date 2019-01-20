@@ -12,7 +12,7 @@ public class TurtleManager extends ObjectManager{
 	
 	//like in photoManager (which extends ObjectManager, too)
 	protected Map<Integer, Turtle> turtleCache = new HashMap<Integer, Turtle>();
-	protected Map<Integer, TurtleType> turtleTypeCache = new HashMap<Integer, TurtleType>();
+	protected Map<String, TurtleType> turtleTypeCache = new HashMap<String, TurtleType>();
 	
 	
 	protected static final TurtleManager instance = new TurtleManager();
@@ -22,6 +22,22 @@ public class TurtleManager extends ObjectManager{
 	}
 	
 	public Turtle createTurtle(String turtleType){
-		return new Turtle(new TurtleType(turtleType));
+		TurtleType tt;
+		if(turtleTypeCache.containsKey(turtleType)){
+			tt = turtleTypeCache.get(turtleType);
+		}else{
+			tt = new TurtleType(turtleType);
+			turtleTypeCache.put(turtleType,tt);
+		}
+		Turtle t = new Turtle(tt);
+		turtleCache.put(t.getId(), t);
+		return t;
+	}
+	
+	public TurtleType getTurtleType(String type){
+		if(turtleTypeCache.containsKey(type)){
+			return turtleTypeCache.get(type);
+		}
+		return null;
 	}
 }
