@@ -1,5 +1,24 @@
 package org.wahlzeit.model.turtle;
 
+/************ Instantiation of domain-class = Turtle-class *********
+ *
+ * -> TurtleManager.createTurtle(String turtleType)
+ * -> TurtleType tt = new TurtleType(turtleType)
+ * -> new Turtle(tt)
+ * 
+ * object creation table(six tuple)
+ * 1. Delegation: separate-object
+ * 2. Selection: On-the-spot
+ * 3. Configuration: In-code
+ * 4. Instantiation: In-code
+ * 5. Initialization: In-second-step
+ * 6. Building: Default 
+ */
+
+
+
+
+
 public class Turtle {
 	
 	private TurtleType type = null;

@@ -37,6 +37,26 @@ import com.googlecode.objectify.annotation.Subclass;
 		}
 	)
 @Subclass
+
+/************ Instantiation of my photo class *********
+*
+* -> new TurtlePhotoFactory()
+* -> initialize()
+* -> getInstance()
+* -> createPhoto()/createPhoto(id)/createTurtlePhoto()/createTurtlePhoto(id)
+* -> new TurtlePhoto()/TurtlePhoto(id)
+* 
+* 
+* object creation table(six tuple)
+* 1. Delegation: Separate-object
+* 2. Selection: By-subclassing
+* 3. Configuration: In-code
+* 4. Instantiation: In-code
+* 5. Initialization: Default
+* 6. Building: Default
+* 
+*/
+
 public class TurtlePhoto extends Photo{
 
 	@Serialize
