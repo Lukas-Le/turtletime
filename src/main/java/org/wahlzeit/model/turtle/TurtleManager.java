@@ -8,6 +8,15 @@ import org.wahlzeit.model.PhotoId;
 import org.wahlzeit.model.PhotoManager;
 import org.wahlzeit.services.ObjectManager;
 
+
+
+/************** Collaborations: ***********
+ * 
+ * see presentation C11, slide 20 and 21 using keywords collaboration, role,
+ * 
+ * Collaboration: Turtle Manager / Turtle (Manager)
+ * 		role: Client, TurtleManager (Manager), Turtle (Element)
+ */
 public class TurtleManager extends ObjectManager{
 	
 	//like in photoManager (which extends ObjectManager, too)

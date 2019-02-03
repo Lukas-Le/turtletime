@@ -17,7 +17,17 @@ package org.wahlzeit.model.turtle;
 
 
 
-
+/************** Collaborations: ***********
+ * 
+ * see presentation C11, slide 20 and 21 using keywords collaboration, role,
+ * 
+ * Collaboration: TurtlePhoto / Turtle
+ * 		role: TurtlePhoto(Client), Turtle(Service)
+ * Collaboration: Turtle / TurtleType (Type Object)
+ * 		role: Client, Turtle(Base Object), TurtleType (Type Object)
+ * Collaboration: Turtle Manager / Turtle (Manager)
+ * 		role: Client, TurtleManager (Manager), Turtle (Element)
+ */
 
 public class Turtle {
 	

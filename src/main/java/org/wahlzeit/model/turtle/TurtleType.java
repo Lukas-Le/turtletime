@@ -4,6 +4,16 @@ import java.awt.List;
 import java.util.HashSet;
 import java.util.Set;
 
+
+
+/************** Collaborations: ***********
+ * 
+ * see presentation C11, slide 20 and 21 using keywords collaboration, role,
+ * 
+ * Collaboration: Turtle / TurtleType (Type Object)
+ * 		role: Client, Turtle(Base Object), TurtleType (Type Object)
+ */
+
 public class TurtleType {
 	
 	public String type;

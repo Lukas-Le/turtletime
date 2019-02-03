@@ -57,6 +57,15 @@ import com.googlecode.objectify.annotation.Subclass;
 * 
 */
 
+/************** Collaborations: ***********
+ * 
+ * see presentation C11, slide 20 and 21 using keywords collaboration, role,
+ * 
+ * Collaboration: TurtlePhoto / Turtle
+ * 		role: TurtlePhoto(Client), Turtle(Service)
+ */
+
+
 public class TurtlePhoto extends Photo{
 
 	@Serialize
